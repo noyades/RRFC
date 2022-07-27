@@ -1,0 +1,125 @@
+#!/bin/bash
+# Startup script for Cadence. 
+# 
+
+# This version is for trying out the latest and greatest releases... 
+echo "Using setup-cadence from MICS-RFIC for Python"
+
+##################################################################
+# Set the base directory for the cadence software
+export base_dir=/software/RFIC/cadtools/cadence
+##################################################################
+echo $base_dir
+
+# A few handy environment variables... 
+export CLS_CDSD_COMPATIBILITY_LOCKING=NO
+##echo $CLS_CDSD_COMPATIBILITY_LOCKING
+export CDS_Netlisting_Mode=Analog
+export CDS_LOG_PATH=.
+export CDS_LOAD_ENV=CWDElseHome
+export CDS_AUTO_64BIT=EXCLUDE:si:PIPO:ultrasim
+export CDS_DEFAULT_BROWSER=firefox
+export CDS_BIND_TMP_DD=both
+export CDS_LOAD_ENV=CSF
+##export SPECTRE_DEFAULTS=-E
+##export SKIP_CDS_DIALOG
+##export LD_LIBRARY_PATH=/usr/local/stow/readline/amd64_linux26/readline-$
+
+
+# Does this work to get the 64 bit binaries when possible?
+##if (`uname -m` == "x86_64"); then
+##   echo "setup-cadence thinks you are on a 64 bit machine...";
+##   set CDS_AUTO_64BIT ALL;
+##else
+##   echo "setup-cadence thinks you are on a 32 bit machine...";
+##   set CDS_AUTO_64BIT NONE;
+##fi
+
+# This is the v6.1.8 version of Cadence
+export CDS=$base_dir/cadence/IC_06.18.000_lnx86
+export IC=$base_dir/cadence/IC_06.18.000_lnx86
+export OA_HOME=$CDS/oa_v22.60.007
+echo $IC
+
+# export the paths to the most recent versions of other cadence tools
+export MMSIM=$base_dir/spectre/SPECTRE_20.10.073_lnx86  # Analog simulation
+export IUS=$base_dir/incisive/INCISIVE152 # Digital simulation
+export EMX=$base_dir/integrand/.current
+export ASSURAHOME=$base_dir/assura/ASSURA41
+export EXT=$base_dir/quantus/QUANTUS211-ISR1_21.11.000_lnx86
+export INNOVUS=$base_dir/innovus/INNOVUS211
+export GENUS=$base_dir/genus/GENUS211
+export SIGRITY=$base_dir/sigrity/SIG_21.10.400_lnx86
+export SSV=$base_dir/ssv/SSV_20.20.000_lnx86
+
+# setenv ICC   $base_dir/ICC-F12    # ccar tools (use old version)
+# setenv EDI   $perfic_dir/encounter/current # Place and route
+# setenv RC    $base_dir/RC-F15     # Synthesis
+# setenv ETS   $base_dir/ETS-F15    # library characterization
+# setenv ETSHOME $ETS
+
+# export the paths to the most recent versions of Mentor tools
+export MGC_HOME=/software/RFIC/cadtools/mentor/aoi_cal_2021.1_16.10
+
+# export the paths to the most recent versions of Keysight tools
+export HPEESOF_DIR=/software/ADS/ADS2020_update2
+export XPEDION=$base_dir/../ads/GoldenGate-2020
+export XPEDION_CADENCE_VERSION=618
+
+
+# Set some critical environment variables
+export QRC_HOME=$EXT
+export CDSHOME=$CDS
+export CDS_INST_DIR=$IC
+export CDS_LIC_TIMEOUT=30
+export EMX_interface_path=$EMX/share/emx/virtuoso_ui/emxinterface
+export TERM=$TERM
+export LANG=C
+
+# setup the license information
+export CDS_LIC_FILE=27002@license.ece.vt.edu
+export LM_LICENSE_FILE=27002@license.ece.vt.edu
+#setenv SNPSLMD_LICENSE_FILE=25280@chickasaw.eng.utah.edu
+export MGLS_LICENSE_FILE=27005@license.ece.vt.edu
+export AGILEESOFD_LICENSE_FILE=27003@license.ece.vt.edu
+export ADS_LICENSE_FILE=27003@license.ece.vt.edu
+export GOLDENGATE_LICENSE_FILE=27003@license.ece.vt.edu
+
+
+# helpful path-manipulation aliases
+#alias prepend 'if (-d \!:2) if ("$\!:1" \!~ *"\!:2"*) setenv \!:1 "\!:2":${\!:1}'
+#alias extend  'if (-d \!:2) if ("$\!:1" \!~ *"\!:2"*) setenv \!:1 ${\!:1}:\!:2'
+
+# Add tools to the path
+export PATH=$IC/tools/dfII/bin:$PATH 
+export PATH=$IC/tools/bin:$PATH 
+export PATH=$EMX/bin:$PATH 
+export PATH=$MMSIM/tools/dfII/bin:$PATH 
+export PATH=$MMSIM/tools/bin:$PATH 
+export PATH=$IUS/tools/bin:$PATH 
+export PATH=$MGC_HOME/bin:$PATH 
+export PATH=$HPEESOF_DIR/bin:$PATH 
+export PATH=$ASSURAHOME/tools/bin:$PATH
+export PATH=$ASSURAHOME/tools/assura/bin:$PATH
+export PATH=$EXT/tools/dfII/bin:$PATH
+export PATH=$EXT/tools/bin:$PATH
+export PATH=$INNOVUS/tools/dfII/bin:$PATH
+export PATH=$INNOVUS/tools/bin:$PATH
+export PATH=$GENUS/bin:$PATH
+export PATH=$SIGRITY/tools/dfII/bin:$PATH
+export PATH=$SIGRITY/tools/bin:$PATH
+export PATH=$SSV/tools/dfII/bin:$PATH
+export PATH=$SSV/tools/bin:$PATH
+#prepend PATH $ICC/tools/bin
+#prepend PATH $ICC/tools/iccraft/bin
+#prepend PATH $ICC/tools/dfII/bin
+#prepend PATH $ETS/bin 
+#prepend PATH $RC/tools/bin
+#prepend PATH $EDI/tools/bin
+
+# setenv up the manual paths (this may not work perfectly...)
+
+export MANPATH=$IC/share/man:$MANPATH
+export MANPATH=$IC/tools/man:$MANPATH
+echo "It Works!"
+
